@@ -491,6 +491,32 @@ async def cmd_start(message: types.Message):
         "removeadmin [user_id] أو ازالة_مشرف [user_id]"
     )
 
+# --- New Handlers for Specific Replies ---
+
+@dp.message(F.text.lower() == 'مين حبيبة ماما')
+async def reply_to_mama_darling(message: types.Message):
+    if message.from_user.id == OWNER_ID:
+        await message.reply("انا")
+    else:
+        # Optionally, you can add a generic reply for non-owners or do nothing
+        pass
+
+@dp.message(F.text.lower() == 'مين روح ماما')
+async def reply_to_mama_soul(message: types.Message):
+    await message.reply("انا")
+
+@dp.message(F.text.lower() == 'مين هطف القروب')
+async def reply_to_hotoof_group(message: types.Message):
+    await message.reply("برهم")
+
+@dp.message(F.text.lower() == 'غوغو انتي تردي على احد غيري؟')
+async def reply_to_gogo_only_owner(message: types.Message):
+    if message.from_user.id == OWNER_ID:
+        await message.reply("لا ماما انتي بس")
+    else:
+        # Optionally, you can add a generic reply for non-owners or do nothing
+        pass
+
 async def main():
     print("بوت غالبرينا شغال...")
     await dp.start_polling(bot)
