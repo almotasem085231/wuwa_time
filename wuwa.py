@@ -491,24 +491,22 @@ async def cmd_start(message: types.Message):
         "removeadmin [user_id] أو ازالة_مشرف [user_id]"
     )
 
-# 1. ردود المالك الخاصة
-@dp.message(F.text.lower().in_(['مين حبيبة ماما', 'مين روح ماما']))
+# ردود المالك الخاصة
+@dp.message(F.text.lower().in_(['مين حبيبة ماما', 'مين روح ماما', 'مين هطف القروب']))
 async def handle_owner_questions(message: types.Message):
     if message.from_user.id == OWNER_ID:
-        await message.reply("انا")
+        if message.text.lower() == 'مين هطف القروب':
+            await message.reply("برهم")
+        else:
+            await message.reply("انا")
 
-# 2. رد للجميع
-@dp.message(F.text.lower() == 'مين هطف القروب')
-async def handle_everyone_question(message: types.Message):
-    await message.reply("برهم")
-
-# 3. رد المالك على سؤال "غوغو"
+# رد المالك على سؤال "غوغو"
 @dp.message(F.text.lower() == 'غوغو انتي تردي على احد غيري؟')
 async def handle_gogo_owner_question(message: types.Message):
     if message.from_user.id == OWNER_ID:
         await message.reply("لا ماما انتي بس")
     else:
-        # هنا يمكنك اختيار تجاهل الرسالة أو إرسال رد مختلف لغير المالك إذا لزم الأمر
+        # يمكن ترك هذا الجزء فارغًا لتجاهل الرسالة من غير المالك
         pass
 
 
