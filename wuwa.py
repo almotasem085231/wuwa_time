@@ -53,9 +53,9 @@ conn.commit()
 
 # Populate default admins and server offsets
 cursor.execute("INSERT OR IGNORE INTO admins (user_id) VALUES (?)", (OWNER_ID,))
-cursor.execute("INSERT OR IGNORE INTO server_offsets (server, offset_hours) VALUES (?, ?)", ('asia', 8))  # UTC+8
-cursor.execute("INSERT OR IGNORE INTO server_offsets (server, offset_hours) VALUES (?, ?)", ('europe', 1))  # UTC+1
-cursor.execute("INSERT OR IGNORE INTO server_offsets (server, offset_hours) VALUES (?, ?)", ('america', -5))  # UTC-5
+cursor.execute("INSERT OR IGNORE INTO server_offsets (server, offset_hours) VALUES (?, ?)", ('asia', 8)) # UTC+8
+cursor.execute("INSERT OR IGNORE INTO server_offsets (server, offset_hours) VALUES (?, ?)", ('europe', 1)) # UTC+1
+cursor.execute("INSERT OR IGNORE INTO server_offsets (server, offset_hours) VALUES (?, ?)", ('america', -5)) # UTC-5
 conn.commit()
 
 def is_admin(user_id: int) -> bool:
@@ -491,31 +491,26 @@ async def cmd_start(message: types.Message):
         "removeadmin [user_id] أو ازالة_مشرف [user_id]"
     )
 
-# --- New Handlers for Specific Replies ---
-
-@dp.message(F.text.lower() == 'مين حبيبة ماما')
-async def reply_to_mama_darling(message: types.Message):
+# 1. ردود المالك الخاصة
+@dp.message(F.text.lower().in_(['مين حبيبة ماما', 'مين روح ماما']))
+async def handle_owner_questions(message: types.Message):
     if message.from_user.id == OWNER_ID:
         await message.reply("انا")
-    else:
-        # Optionally, you can add a generic reply for non-owners or do nothing
-        pass
 
-@dp.message(F.text.lower() == 'مين روح ماما')
-async def reply_to_mama_soul(message: types.Message):
-    await message.reply("انا")
-
+# 2. رد للجميع
 @dp.message(F.text.lower() == 'مين هطف القروب')
-async def reply_to_hotoof_group(message: types.Message):
+async def handle_everyone_question(message: types.Message):
     await message.reply("برهم")
 
+# 3. رد المالك على سؤال "غوغو"
 @dp.message(F.text.lower() == 'غوغو انتي تردي على احد غيري؟')
-async def reply_to_gogo_only_owner(message: types.Message):
+async def handle_gogo_owner_question(message: types.Message):
     if message.from_user.id == OWNER_ID:
         await message.reply("لا ماما انتي بس")
     else:
-        # Optionally, you can add a generic reply for non-owners or do nothing
+        # هنا يمكنك اختيار تجاهل الرسالة أو إرسال رد مختلف لغير المالك إذا لزم الأمر
         pass
+
 
 async def main():
     print("بوت غالبرينا شغال...")
