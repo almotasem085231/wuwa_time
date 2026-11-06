@@ -19,8 +19,8 @@ if ! command -v python &> /dev/null; then
     pkg update -y && pkg install -y python
 fi
 
-echo "[2/4] تثبيت مكتبات المشروع (FastAPI, Uvicorn, Requests, Aiogram)..."
-pip install fastapi uvicorn requests python-dotenv aiogram==2.25.2 --quiet
+echo "[2/4] تثبيت مكتبات المشروع (aiohttp, requests, python-dotenv, aiogram)..."
+pip install aiohttp requests python-dotenv aiogram==2.25.2 --quiet
 
 # فحص ملف الإعدادات
 echo "[3/4] التحقق من ملف الإعدادات .env..."
@@ -40,4 +40,3 @@ fi
 # تشغيل المشغل الموحد
 echo "[4/4] تشغيل البوت والـ API معاً..."
 python start.py
-

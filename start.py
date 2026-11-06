@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Wuthering Waves Arabic - Master Launcher
-Starts both the FastAPI REST API and the Telegram Bot concurrently,
+Starts both the REST API Server (aiohttp) and the Telegram Bot concurrently,
 or individually based on arguments.
 """
 
@@ -23,10 +23,7 @@ def print_banner():
 
 def run_api():
     print("[+] تشغيل سيرفر الـ API على المنفذ 8000...")
-    import uvicorn
-    port = int(os.getenv("PORT", 8000))
-    host = os.getenv("HOST", "0.0.0.0")
-    uvicorn.run("api:app", host=host, port=port, reload=False)
+    subprocess.run([sys.executable, "api.py"])
 
 def run_bot():
     print("[+] تشغيل بوت التليغرام (wuwa.py)...")
@@ -34,7 +31,7 @@ def run_bot():
 
 def run_all():
     print("[+] تشغيل الـ API والبوت معاً...")
-    api_process = subprocess.Popen([sys.executable, "-m", "uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"])
+    api_process = subprocess.Popen([sys.executable, "api.py"])
     
     time.sleep(1.5)
     
@@ -70,4 +67,3 @@ if __name__ == "__main__":
         run_bot()
     else:
         run_all()
-
