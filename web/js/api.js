@@ -7,6 +7,26 @@
  * - Configurable Base URL (supports Netlify proxy or direct API)
  */
 
+// Auto-detect and store ?api=... query parameter for easy one-click backend connection
+(function initApiConfig() {
+  try {
+    if (typeof window !== 'undefined' && window.location.search) {
+      const params = new URLSearchParams(window.location.search);
+      const apiParam = params.get('api');
+      if (apiParam) {
+        let cleanUrl = apiParam.trim().replace(/\/+$/, '');
+        if (!cleanUrl.endsWith('/api')) {
+          cleanUrl += '/api';
+        }
+        localStorage.setItem('wuwa_api_url', cleanUrl);
+        console.log('[API] Connected to backend URL from parameter:', cleanUrl);
+      }
+    }
+  } catch (e) {
+    console.warn('[API] Query param init error:', e);
+  }
+})();
+
 const API_CONFIG = {
   // Priority: 1. window.API_BASE_URL (if injected) 2. localStorage 3. Relative '/api'
   baseUrl: window.API_BASE_URL || localStorage.getItem('wuwa_api_url') || '/api',
