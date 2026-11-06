@@ -19,18 +19,32 @@ from datetime import datetime, timezone
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 
 import requests
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except ImportError:
+
+# --- Robust .env loading (always runs first) ---
+def _load_env():
     env_file = Path(".env")
     if env_file.exists():
-        with open(env_file, "r", encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if line and not line.startswith("#") and "=" in line:
+        try:
+            with open(env_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if not line or line.startswith("#") or "=" not in line:
+                        continue
                     k, v = line.split("=", 1)
-                    os.environ.setdefault(k.strip(), v.strip())
+                    k = k.strip()
+                    v = v.strip().strip('"').strip("'")
+                    if k and v:
+                        os.environ[k] = v  # Always overwrite to pick up latest
+        except Exception as e:
+            print(f"[WARN] .env load error: {e}")
+    # Also try python-dotenv as secondary
+    try:
+        from dotenv import load_dotenv
+        load_dotenv(override=True)
+    except ImportError:
+        pass
+
+_load_env()
 
 import database
 from time_utils import format_countdown_data
@@ -39,14 +53,23 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 logger = logging.getLogger("wuwa_api")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
+if BOT_TOKEN:
+    logger.info(f"BOT_TOKEN loaded: ...{BOT_TOKEN[-6:]}")
+else:
+    logger.warning("BOT_TOKEN is NOT set! Images from Telegram will NOT work.")
 CACHE_DIR = Path("cache/images")
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 WEB_DIR = Path("web")
 
 def fetch_and_cache_telegram_file(file_id: str) -> Optional[Path]:
     """Downloads file from Telegram Bot API and caches it locally."""
-    if not BOT_TOKEN or not file_id:
+    if not BOT_TOKEN:
+        logger.warning(f"Cannot fetch image: BOT_TOKEN is empty!")
         return None
+    if not file_id or not file_id.strip():
+        logger.warning(f"Cannot fetch image: file_id is empty!")
+        return None
+    file_id = file_id.strip()
     cached_file = CACHE_DIR / f"{file_id}.jpg"
     if cached_file.exists() and cached_file.stat().st_size > 0:
         return cached_file
@@ -54,9 +77,11 @@ def fetch_and_cache_telegram_file(file_id: str) -> Optional[Path]:
         url_get_file = f"https://api.telegram.org/bot{BOT_TOKEN}/getFile?file_id={file_id}"
         resp = requests.get(url_get_file, timeout=10)
         if resp.status_code != 200:
+            logger.error(f"Telegram getFile failed: status={resp.status_code}, file_id={file_id[:20]}")
             return None
         data = resp.json()
         if not data.get("ok"):
+            logger.error(f"Telegram getFile not ok: {data.get('description')}, file_id={file_id[:20]}")
             return None
         file_path_tg = data["result"]["file_path"]
         download_url = f"https://api.telegram.org/file/bot{BOT_TOKEN}/{file_path_tg}"
@@ -64,8 +89,10 @@ def fetch_and_cache_telegram_file(file_id: str) -> Optional[Path]:
         if img_resp.status_code == 200 and len(img_resp.content) > 0:
             with open(cached_file, "wb") as f:
                 f.write(img_resp.content)
-            logger.info(f"Cached image for file_id {file_id} successfully.")
+            logger.info(f"Cached image for file_id={file_id[:20]}... size={len(img_resp.content)} bytes")
             return cached_file
+        else:
+            logger.error(f"Image download failed: status={img_resp.status_code}")
     except Exception as e:
         logger.error(f"Exception caching Telegram image: {e}")
     return None
@@ -148,6 +175,24 @@ class WuWaApiHandler(SimpleHTTPRequestHandler):
                 "utc_time": now_utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
                 "version": "1.0.0",
                 "telegram_configured": bool(BOT_TOKEN)
+            })
+
+        if path == "/api/debug":
+            # Shows DB image_file_ids and BOT_TOKEN status (safe: hides token)
+            try:
+                conn = database.get_connection()
+                cursor = conn.cursor()
+                cursor.execute("SELECT section, image_file_id FROM content WHERE section IN ('banner','stygian','spiral_abyss') ORDER BY id DESC")
+                rows = cursor.fetchall()
+                conn.close()
+                sections_info = {r["section"]: {"file_id_set": bool(r["image_file_id"] and r["image_file_id"].strip()), "file_id_len": len(r["image_file_id"] or "")} for r in rows}
+            except Exception as e:
+                sections_info = {"error": str(e)}
+            return self.send_json({
+                "bot_token_configured": bool(BOT_TOKEN),
+                "bot_token_tail": f"...{BOT_TOKEN[-6:]}" if BOT_TOKEN else "NOT SET",
+                "sections": sections_info,
+                "cache_files": [f.name for f in CACHE_DIR.iterdir() if f.is_file()] if CACHE_DIR.exists() else []
             })
 
         if path == "/api/content":
