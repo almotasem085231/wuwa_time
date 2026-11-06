@@ -160,7 +160,7 @@ class App {
       // Update hero background image dynamically from API
       const heroBgEl = document.querySelector('.version-hero-bg');
       if (heroBgEl) {
-        heroBgEl.style.backgroundImage = `url('/api/image/banner?t=${Date.now()}')`;
+        heroBgEl.style.backgroundImage = `url('${api.getImageUrl(`/image/banner?t=${Date.now()}`)}')`;
       }
 
       this.setupServerCountdownCards('home', banner.servers);
@@ -200,7 +200,7 @@ class App {
         descEl.style.display = 'none';
       }
     }
-    if (imgEl) imgEl.src = `/api/image/banner?t=${Date.now()}`;
+    if (imgEl) imgEl.src = api.getImageUrl(`/image/banner?t=${Date.now()}`);
 
     // Populate overlay text on the artwork
     const overlayTitle = document.getElementById('bannerOverlayTitle');
@@ -244,7 +244,7 @@ class App {
         descEl.style.display = 'none';
       }
     }
-    if (imgEl) imgEl.src = `/api/image/stygian?t=${Date.now()}`;
+    if (imgEl) imgEl.src = api.getImageUrl(`/image/stygian?t=${Date.now()}`);
 
     this.setupServerCountdownCards('stygian', stygian.servers);
   }
@@ -266,7 +266,7 @@ class App {
         descEl.style.display = 'none';
       }
     }
-    if (imgEl) imgEl.src = `/api/image/spiral_abyss?t=${Date.now()}`;
+    if (imgEl) imgEl.src = api.getImageUrl(`/image/spiral_abyss?t=${Date.now()}`);
 
     this.setupServerCountdownCards('tower', spiral_abyss.servers);
   }

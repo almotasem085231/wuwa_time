@@ -196,6 +196,15 @@ class ApiService {
       return { status: 'offline', error: err.message };
     }
   }
+
+  getImageUrl(path) {
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    if (API_CONFIG.baseUrl && API_CONFIG.baseUrl.startsWith('http')) {
+      const base = API_CONFIG.baseUrl.replace(/\/+$/, '');
+      return `${base}${cleanPath}`;
+    }
+    return `/api${cleanPath}`;
+  }
 }
 
 export const api = new ApiService();
