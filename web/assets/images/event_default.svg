@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="eventBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a111e" />
+      <stop offset="100%" stop-color="#111c2e" />
+    </linearGradient>
+    <linearGradient id="goldCyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f5ff" />
+      <stop offset="100%" stop-color="#fbbf24" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#eventBg)" rx="12" />
+  <rect width="796" height="446" x="2" y="2" fill="none" stroke="#1e293b" stroke-width="2" rx="10" />
+
+  <!-- Diagonal Tech Slits -->
+  <g opacity="0.15" stroke="#00f5ff" stroke-width="2">
+    <line x1="100" y1="0" x2="250" y2="450" />
+    <line x1="200" y1="0" x2="350" y2="450" />
+    <line x1="300" y1="0" x2="450" y2="450" />
+  </g>
+
+  <!-- Glowing Emblem in Center -->
+  <g transform="translate(400, 210)">
+    <circle cx="0" cy="0" r="70" fill="none" stroke="#00f5ff" stroke-width="2.5" stroke-dasharray="12 8" opacity="0.6"/>
+    <circle cx="0" cy="0" r="45" fill="none" stroke="#fbbf24" stroke-width="1.5" />
+    <polygon points="0,-25 22,15 -22,15" fill="#00f5ff" opacity="0.8"/>
+    <polygon points="0,25 22,-15 -22,-15" fill="#fbbf24" opacity="0.5"/>
+  </g>
+
+  <!-- Title Badge -->
+  <g transform="translate(40, 50)">
+    <rect x="0" y="0" width="130" height="30" rx="4" fill="#00f5ff" fill-opacity="0.15" stroke="#00f5ff" stroke-width="1" />
+    <text x="65" y="20" font-family="'Cairo', sans-serif" font-weight="700" font-size="13" fill="#00f5ff" text-anchor="middle">
+      حدث نشط
+    </text>
+  </g>
+</svg>
+

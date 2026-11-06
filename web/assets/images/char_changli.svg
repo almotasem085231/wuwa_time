@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgChang" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2c100b"/>
+      <stop offset="60%" stop-color="#190906"/>
+      <stop offset="100%" stop-color="#0a0302"/>
+    </linearGradient>
+    <linearGradient id="fusionGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb7185"/>
+      <stop offset="50%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <filter id="chBloom">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="400" height="500" rx="16" fill="url(#bgChang)"/>
+  <rect width="396" height="496" x="2" y="2" rx="14" fill="none" stroke="#f97316" stroke-width="1.5" stroke-opacity="0.4"/>
+
+  <!-- Phoenix Ring -->
+  <circle cx="200" cy="200" r="130" fill="none" stroke="#f97316" stroke-width="1" stroke-dasharray="10 15" opacity="0.3"/>
+  <circle cx="200" cy="200" r="90" fill="none" stroke="#fdba74" stroke-width="2" opacity="0.4" filter="url(#chBloom)"/>
+
+  <!-- Flaming Vermilion Bird / Phoenix Motif -->
+  <g transform="translate(200, 200)" filter="url(#chBloom)">
+    <path d="M 0,-85 C 45,-50 70,-10 0,60 C -70,-10 -45,-50 0,-85 Z" fill="url(#fusionGrad)" opacity="0.85"/>
+    <circle cx="0" cy="-20" r="28" fill="#ffedd5"/>
+    <!-- Feathers -->
+    <path d="M -50,-20 Q -90,20 -30,40" stroke="#f97316" stroke-width="4" fill="none"/>
+    <path d="M 50,-20 Q 90,20 30,40" stroke="#f97316" stroke-width="4" fill="none"/>
+  </g>
+
+  <!-- Bottom Gradient Overlay -->
+  <rect y="320" width="400" height="180" rx="16" fill="url(#bgChang)" opacity="0.95"/>
+
+  <!-- Resonator Info -->
+  <g transform="translate(24, 370)">
+    <rect x="0" y="0" width="86" height="26" rx="4" fill="#ea580c" fill-opacity="0.2" stroke="#ea580c" stroke-width="1"/>
+    <text x="43" y="18" font-family="'Cairo', sans-serif" font-weight="800" font-size="12" fill="#fdba74" text-anchor="middle">فيوجن (Fusion)</text>
+
+    <text x="350" y="20" font-family="'Cairo', sans-serif" font-weight="900" font-size="16" fill="#fbbf24" text-anchor="end">★★★★★</text>
+
+    <text x="0" y="60" font-family="'Cairo', sans-serif" font-weight="900" font-size="28" fill="#ffffff">تشانغلي (Changli)</text>
+    <text x="0" y="88" font-family="'Cairo', sans-serif" font-weight="600" font-size="14" fill="#94a3b8">سلاح السيف | مستشارة جينغزو الأولى</text>
+  </g>
+</svg>
+

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="towerBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090514" />
+      <stop offset="50%" stop-color="#170c2a" />
+      <stop offset="100%" stop-color="#05030d" />
+    </linearGradient>
+    <linearGradient id="purpleGold" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#9333ea" />
+      <stop offset="60%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#fbbf24" />
+    </linearGradient>
+    <filter id="glowP">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="600" fill="url(#towerBg)" />
+
+  <!-- Monolith Tower Architecture -->
+  <g transform="translate(820, 100)" filter="url(#glowP)">
+    <!-- Base Platform -->
+    <polygon points="100,450 10,480 190,480" fill="#1e1035" stroke="#9333ea" stroke-width="2" />
+    <!-- Tower Body Segments -->
+    <polygon points="100,50 60,450 140,450" fill="url(#purpleGold)" opacity="0.85" />
+    <!-- Floating Hazard Crystals -->
+    <polygon points="100,0 80,40 120,40" fill="#fbbf24" />
+    <polygon points="30,220 10,250 50,250" fill="#a855f7" opacity="0.7" />
+    <polygon points="170,180 150,210 190,210" fill="#a855f7" opacity="0.7" />
+    <!-- Energy Beams / Rings -->
+    <ellipse cx="100" cy="180" rx="90" ry="18" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="10 6" />
+    <ellipse cx="100" cy="300" rx="120" ry="24" fill="none" stroke="#00f5ff" stroke-width="2" stroke-dasharray="14 8" />
+  </g>
+
+  <!-- Typography / Info -->
+  <g transform="translate(100, 190)">
+    <rect x="0" y="0" width="180" height="34" rx="4" fill="#a855f7" fill-opacity="0.2" stroke="#a855f7" stroke-width="1.5" />
+    <text x="90" y="22" font-family="'Cairo', sans-serif" font-weight="800" font-size="14" fill="#d8b4fe" text-anchor="middle">
+      ⚔️ برج الخصومة (التاور)
+    </text>
+
+    <text x="0" y="80" font-family="'Cairo', sans-serif" font-weight="900" font-size="44" fill="#f8fafc">
+      برج الخصومة - منطقة الخطر
+    </text>
+    <text x="0" y="130" font-family="'Cairo', sans-serif" font-weight="800" font-size="32" fill="#c084fc">
+      Tower of Adversity : Hazard Zone
+    </text>
+    <text x="0" y="175" font-family="'Cairo', sans-serif" font-weight="600" font-size="17" fill="#94a3b8">
+      أقوى تحديات نهاية اللعبة مع تجدد مستمر لجوائز الأسترانيت لكل نصف شهر
+    </text>
+  </g>
+</svg>
+

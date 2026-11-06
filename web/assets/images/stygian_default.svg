@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="deepOcean" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#040d1a" />
+      <stop offset="50%" stop-color="#0a192f" />
+      <stop offset="100%" stop-color="#020813" />
+    </linearGradient>
+    <linearGradient id="sonarGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <radialGradient id="glowG" cx="70%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#000" stop-opacity="0" />
+    </radialGradient>
+    <filter id="blurG">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="600" fill="url(#deepOcean)" />
+  <rect width="1200" height="600" fill="url(#glowG)" />
+
+  <!-- Sonar Waves / Nautical Grid -->
+  <g stroke="#38bdf8" stroke-width="1.2" opacity="0.25" fill="none">
+    <circle cx="800" cy="300" r="120" stroke-dasharray="10 10"/>
+    <circle cx="800" cy="300" r="200" stroke-dasharray="15 15"/>
+    <circle cx="800" cy="300" r="280" stroke-dasharray="20 20"/>
+    <line x1="800" y1="20" x2="800" y2="580" />
+    <line x1="520" y1="300" x2="1080" y2="300" />
+  </g>
+
+  <!-- Futuristic Cruiser / Flagship Silhouette -->
+  <g transform="translate(620, 200)" filter="url(#blurG)">
+    <!-- Main Hull -->
+    <path d="M 0,100 L 100,50 L 260,50 L 340,90 L 360,110 L 300,140 L 40,140 Z" fill="#0f2942" stroke="#38bdf8" stroke-width="2.5" />
+    <!-- Superstructure & Radar -->
+    <path d="M 140,50 L 160,10 L 220,10 L 240,50 Z" fill="#163859" stroke="#00f5ff" stroke-width="2" />
+    <line x1="190" y1="10" x2="190" y2="-20" stroke="#00f5ff" stroke-width="3" />
+    <circle cx="190" cy="-20" r="6" fill="#38bdf8" />
+    <!-- Energy Thruster Glow -->
+    <ellipse cx="20" cy="115" rx="16" ry="8" fill="#00f5ff" filter="url(#blurG)" />
+    <!-- Wave ripples -->
+    <path d="M -60,145 Q 150,170 420,145" fill="none" stroke="#00f5ff" stroke-width="2" opacity="0.6" />
+    <path d="M -100,165 Q 150,195 460,165" fill="none" stroke="#38bdf8" stroke-width="1.5" opacity="0.3" />
+  </g>
+
+  <!-- Typography / Info -->
+  <g transform="translate(100, 190)">
+    <rect x="0" y="0" width="170" height="34" rx="4" fill="#0284c7" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1.5" />
+    <text x="85" y="22" font-family="'Cairo', sans-serif" font-weight="800" font-size="14" fill="#38bdf8" text-anchor="middle">
+      🚢 حدث السفينة الملحمي
+    </text>
+
+    <text x="0" y="80" font-family="'Cairo', sans-serif" font-weight="900" font-size="44" fill="#f8fafc">
+      السفينة - بحر ستيجيان
+    </text>
+    <text x="0" y="130" font-family="'Cairo', sans-serif" font-weight="800" font-size="32" fill="#38bdf8">
+      Stygian Sea Deep Expedition
+    </text>
+    <text x="0" y="175" font-family="'Cairo', sans-serif" font-weight="600" font-size="17" fill="#94a3b8">
+      محتوى دوري واستكشاف تكتيكي بمكافآت صدى وأسترانيت قيمة
+    </text>
+  </g>
+</svg>
+

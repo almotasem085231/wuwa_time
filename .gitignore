@@ -1,0 +1,26 @@
+# Environment variables and secrets
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.py.backup
+
+# SQLite WAL and temporary files
+*.db-shm
+*.db-wal
+*.db-journal
+
+# Image cache (downloaded dynamically from Telegram)
+cache/
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# OS files
+Thumbs.db
+.DS_Store
+
