@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Wuthering Waves Arabic - Master Launcher
-Starts both the REST API Server (aiohttp) and the Telegram Bot concurrently,
+Starts both the REST API Server (api.py) and the Telegram Bot (wuwa.py) concurrently,
 or individually based on arguments.
 """
 
@@ -11,6 +11,27 @@ import subprocess
 import time
 import argparse
 from pathlib import Path
+
+# Load environment variables
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+# Fallback parser for .env
+env_file = Path(".env")
+if env_file.exists():
+    try:
+        with open(env_file, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    val = v.strip().strip('"').strip("'")
+                    os.environ.setdefault(k.strip(), val)
+    except Exception as e:
+        print(f"[!] Error reading .env: {e}")
 
 def print_banner():
     banner = """
@@ -35,9 +56,9 @@ def run_all():
     
     time.sleep(1.5)
     
-    bot_token = os.getenv("BOT_TOKEN")
+    bot_token = os.getenv("BOT_TOKEN", "").strip()
     if not bot_token or bot_token == "your_telegram_bot_token_here":
-        print("[-] تنبيه: لم يتم تعيين BOT_TOKEN في ملف .env. تم تشغيل الـ API فقط.")
+        print("[-] تنبيه: لم يتم العثور على BOT_TOKEN في ملف .env. تم تشغيل الـ API فقط.")
         print("[*] افتح المتصفح على: http://localhost:8000")
         try:
             api_process.wait()
@@ -45,6 +66,7 @@ def run_all():
             api_process.terminate()
         return
 
+    print(f"[+] تم التحقق من توكن البوت بنجاح. جاري تشغيل بوت التليغرام...")
     bot_process = subprocess.Popen([sys.executable, "wuwa.py"])
     
     try:
